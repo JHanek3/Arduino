@@ -1,0 +1,99 @@
+Item List
+  Uno, Mini USB cable, Computer, Breadboard, LM35 temperature sensor
+  and 3 Jumper Cables
+
+Background
+  LM35 Temperature sensor will output .01V per degree Centigrade on the Vo pin
+  Use ADC on the UNO to measure that voltage
+    ADC on UNO will read any voltage from GND to VCC (5v) and convert to a digital number
+  10 bit value proportional to the voltage applied
+  Formula
+    V=(ADC/1023)*VCC
+      ADC is ADC value read
+      VCC is the supply voltage(5v)
+      V is the voltage applied to the ADC pin
+    Convert Voltage to degrees Centigrade (LM35 output .01V per degree Centrigrade)
+      dC = V *100
+      V is the voltage on the Vo pin of the LM35 sensor
+      dC is degrees Centigrade
+    Combine the two equations by subing in V
+    dC=(ADC/1023)*VCC*100
+    dC=(ADC/1023)*500
+      VCC=5
+
+Diagram
+  Connect the LM35 temperature sensor to 5v, gnd and A0 on the Uno
+  Red Jumper Cable from left prong of L35 to 5V
+  Black Jumper Cable from right prong of L35 to GND
+  White Jumper Cable from middle prong of L35 to A0
+  Check figure 1
+
+Writng the sketch
+  Used from example
+  /*
+ * Tutorial 1: Reading Temperature
+ * 
+ * Read the temperature in celcius over serial.
+ *
+ *
+ * To see this sketch in action open up the serial
+ * monitor. Clamp your fingers over the LM35
+ * sensor. The temperature will rise and then fall
+ * as you remove your fingers.
+ *
+ * The circuit:
+ * - LM35 to 5v, GND, and Vo to analog 0
+ *
+ */
+
+// the output pin of the LM35 temperature sensor
+int lm35Pin = A0;
+
+void setup()
+{
+    // set up serial at 9600 baud   
+    Serial.begin(9600);
+}
+
+void loop()
+{ 
+    int analogValue;
+    float temperature;
+
+    // read our temperature sensor
+    analogValue = analogRead(lm35Pin);
+
+    // convert the 10bit analog value to celcius
+    temperature = float(analogValue) / 1023;
+    temperature = temperature * 500;
+
+    // print the temperature over serial
+    Serial.print("Temp: ");
+    Serial.print(temperature);
+    Serial.println("C");
+    
+    // wait 1s before reading the temperature again
+    delay(1000);
+}
+
+Upload to Uno and then go to Tools Serial Monitor
+Add Fahrenheit conversion around line 36
+Check Figure 2
+
+Questions:
+  What does a breadboard do?
+    A breadboard is a rectangular board with many mounting holes.
+      They are used for creating electrical connections between electronic components and single board computers or microcontrollers such as Arduino and Raspberry Pi.
+    The vertical columns of the breadboard are called terminals, while the horizontal long rows are called power rails because they are mostly used to connect the power supply to the breadboard. 
+    The positive rails are indicated by red lines, while the negative rails are indicated by black ones.
+    Breadboards are a soderless way to test a circuit (help you connect components to complete your basic circuit).
+
+  Does the color matter for jumper cables?
+    No, all jumper wires are the same. Advise use one set for positive connections and one set for negative connections.
+  
+  What is A0?
+    An analog input pin
+
+  What is GND?
+    Negative of the Power supply.
+
