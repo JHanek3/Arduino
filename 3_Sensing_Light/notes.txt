@@ -1,0 +1,7 @@
+Background Information
+  A photocell behaves like a variable resistor. The more light applied to the photocell the less resistance it has.
+  A0 reads voltages not resistancem beed a circuit to convert the phtocell's resistance into a voltage that can be read
+  This is done by adding a fixed resistor in series with the photocell.
+
+Breadboard Figure 1
+Output Figure 2
