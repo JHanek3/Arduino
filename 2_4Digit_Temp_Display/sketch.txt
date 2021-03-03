@@ -1,0 +1,54 @@
+#include "SevSeg.h"
+SevSeg sevseg; 
+
+int lm35Pin = A0;
+
+void setup(){
+  // set up serial at 9600 baud   
+  Serial.begin(9600);
+  
+  byte numDigits = 4;
+  byte digitPins[] = {10, 11, 12, 13};
+  byte segmentPins[] = {9, 2, 3, 5, 6, 8, 7, 4};
+
+  bool resistorsOnSegments = true; 
+  bool updateWithDelaysIn = true;
+  byte hardwareConfig = COMMON_CATHODE; 
+  sevseg.begin(hardwareConfig, numDigits, digitPins, segmentPins, resistorsOnSegments);
+  sevseg.setBrightness(90);
+}
+
+void loop(){
+  int analogValue;
+  float temperature;
+  float cTemperature;
+  float fTemperature;
+
+  // read out temperature sensor
+  analogValue = analogRead(lm35Pin);
+  
+  // convert the 10 bit analog value to celcius
+  temperature = float(analogValue) / 1023;
+  cTemperature = temperature * 50000;
+  // Its 50000 instead of 500 because we need to move over the decimal for display
+
+//  Convert Centrigrade to fahrenheit, to make this work change 50000 back to 500
+//  fTemperature = (cTemperature * 9 / 5 + 32);
+
+//  Serial.print("Temp: ");
+//  Serial.print(cTemperature); 
+//  Serial.println("C");
+//  Serial.print("Temp: ");
+//  Serial.print(fTemperature);
+//  Serial.println("F");
+    
+//  //Convert fahrheit to seven digit display, this can also be arranged with 50000
+//  displayTemperature = fTemperature * 100;
+
+  static unsigned long timer = millis();
+  if (millis() >= timer) {
+    timer += 300;
+    sevseg.setNumber(cTemperature, 2);
+  }
+  sevseg.refreshDisplay();
+}
