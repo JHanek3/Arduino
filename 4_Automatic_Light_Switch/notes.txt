@@ -1,0 +1,18 @@
+Automatically turn an LED on when its dark by reading the amount of light hiting a photocell
+
+Background Information
+  Continuing from #3, When its dark toggle an LED
+  Uno has 14 digital pins that can be configureed as input or output
+    Digital pin in output mode to drive an LED
+  Output Mode, digitalWrite(LED, Low) will set the pin to 0V and digitalWrite(LED,High) will set the pin to VCC(5v)
+  Resistor is needed to limit the current flow
+    Typical LEDs are rated for up to 20 mA if forward current and have a forward voltage drop of 2V
+  R = (VCC -Vf)/IF
+    VCC = supply voltage (5v)
+    Vf is LEDs forward voltage drop
+    If is the LEDs forward voltage current
+  Gives you a minimum resistor of 150 ohms
+  Will be using a 330 ohm resistor
+
+Setup Diagram Figure 1
+Switch on Figure 2

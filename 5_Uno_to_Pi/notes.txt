@@ -1,0 +1,108 @@
+What is Serial Communication with UART
+  Serial communication is a simple way to transfer data
+  Data is sent sequentially, one bit at a time, contrary to parallel communication where many bit are sent at the same time
+  UART protocol
+    Serial with Arduino and Raspberry Pi
+    Universal Asynchronous Reception and Transmission
+    Asynchronous multi-master protocol, allow you to communicate between the 2 boards
+      Multi-master means all connected devicies will be free to send data when they want
+      main difference to master-slaves protocols, where only the master device can initiate communication
+        I2C, SPI one Arduino board and multiple sensors/actuators
+    Uno board has one UART, USB or RX/TX pins
+    Pi you can connect many Serial devices
+    Serial monitor on Arduino, is a form of serial communication
+      same, but the other side of the arduino will be the Raspberry pi board
+
+2 ways to connect Raspberry pi and arduino for serial communication
+  Serial via USB
+    Easiest
+    Have to connect your arduino to computer to upload the code into the board, then connect the USB cable to raspberry pi
+      PI will power the arduino
+  Serial via GPIOs
+    Will need to use a voltage-level shifter
+    Uno operates at 5.0V, Pi operates at 3.3V
+      3.3V/5V level-shifter to protect the Pi
+  USB is the preferred way
+
+Pi Software Setup
+  Raspian or Ubuntu
+  Detect the Uno
+    Connect the Uno to the pi via USB
+      $ ls /dev/tty* got a list of dev
+      unplugged Uno
+      $ ls /dev/tty* got a list of dev
+        /dev/ttyUSB0 is the guy
+  Hardware permissions for Serial
+    $ sudo adduser your_username dialout
+  Install Python Serial Libary on Raspberry Pi
+    python3 -m pip install pyserial
+  
+Simple Setup
+  Uno1, Pi1 will contain the code used for first program
+  Uno1
+    void setup()
+    initialize Serial communication, choose a baud rate
+      Baud rate is the rate at which information is transferred into a
+        communication chanel
+      Serial port context "9600 baud" means that the serial port is capable of
+        transferring a maximum of 9600 bits per second
+      9600, is commonly used very low
+      56700 or even 115200
+  Pi1
+    import the serial library
+    @ main, initialize serial communication with serial.Serial()
+      deviceName, Baud rate (same baud rate as Arduino), timeout = 1
+        timeout means when we read from serial the program won't be stuck forever
+        if the data is not coming
+        after 1 second of reading, if not all bytes are received the function will
+          return the already received bytes
+    serial.Serial() returns an object that you can use for your Serial Operations
+      stored in ser
+    ser.flush()
+      flush any input or output buffer, avoids receiving or sending uncomplete
+        data at the beginning of the communication
+    while True:
+      check if some data is available with the in_waiting attribute
+        if yes read the data
+        readline will read all bytes until a newline character is detected
+        then decode with UTF-8 to to bypass \r and \n
+        rstrip removes trailing characters
+  ran the script from the Pi terminal and saw Hello from Arduino! print in said terminal
+
+Bidirectional Serial communication between Raspberry Pi and Arduino
+  Prior code sent data from Arduino to the Pi
+  Now Pi to Ardiuno
+    create programs that wait for each other's input
+  Uno2
+    Check if arduino has received ata with Serial.available()
+      give you the number of bytes already arived and stored in the receiver buffer
+    If some data has arrived, read the string until a new line character
+      all bytes before \n are converted and added to the Arduino String object
+    print the data with additional piece of text
+  Pi2
+    pySerial to write() to send data to the arduino
+    b before the string to encode to bytes, only send bytes through Serial
+    could have done this instead
+      ser.write("Hello from Raspberry Pi!\n".encode('utf-8'))
+    we got nothing, need to make the python files executables
+      chmod +x script.py in pythonScripts directory
+      SOLUTION:
+        shebang line #!/usr/bin/python
+        chmod +x pi2.py
+        ./pi2.py
+
+Pi Arduino Serial Communication
+  2 Leds and one push button
+  When the button is pressed, the Arduino will send a notification to
+    the Pi
+  Pi will then compute a random integer between 0 and 1
+    and send it to the arduino
+    1 meaning yes, and 0 meaning no
+  Arduino will power on the LED related to this number, power off the
+    other LEBS
+  Practicing communication and synchronization of tasks between Arduino and Pi
+
+https://roboticsbackend.com/raspberry-pi-arduino-serial-communication/
+                                                                              
+    
+  

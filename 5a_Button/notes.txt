@@ -1,0 +1,6 @@
+Final project for Pi to Uno
+  Ask yes/no question verbally, press button, send button press to pi, pi sends back yes or no, light glows green or red based on yes or no
+  PROBLEM:
+    I don't know how buttons work
+  So I did this mini tutorial to help shed some light
+  
