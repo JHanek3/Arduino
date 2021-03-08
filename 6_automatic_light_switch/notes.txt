@@ -1,0 +1,14 @@
+Automatically turn an LED when its dark by reading the amount of light hitting a photocell
+  Uno has 14 digital pins that can be configured as input or output
+    use a digital pin in output to drive an LED
+    digitalWrite(LED, LOW) sets to 0v and digitalWrite(LED, HIGH) set VCC to 5v
+  Resistor needed when using an LED to limit current flow
+    typical leds are rated for up to 20mA and have a forward voltage drop of 2V
+  To find minimum resistor value
+    R = (VCC-Vf)/lf
+    VCC = suplly voltage
+    Vf is the LEDs forward voltage
+    lf is the LEDs forward voltage current
+    R = 5v - 2V /.020
+      -> 150 ohms, instead we are going to use 330 ohms
+      
