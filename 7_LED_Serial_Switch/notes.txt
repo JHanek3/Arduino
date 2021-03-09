@@ -1,0 +1,7 @@
+Control four LEDs using serial with a swtich statement
+
+Take user input over serial
+  Control four LEDs over serial by sending characters to toggle each LED
+  To read a character from serial we use th emethod "Serial.read()"
+
+Remember GPIOs supply votltage
