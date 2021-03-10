@@ -1,4 +1,4 @@
-Automatically turn an LED when its dark by reading the amount of light hitting a photocell
+Control four LEDs using a four loop
 
 ## Figure 1
 <img align="left" alt="Figure 1" width="600px" height="320px" src="./Figure1.jpeg"/>
