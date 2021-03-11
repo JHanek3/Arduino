@@ -1,0 +1,2 @@
+Add a 10k potentiometer to make a bar graph, then use arrays to keep track of the LEDs
+  rotate potentiometer and as you rotate it goes first light, then first light second light etc.
