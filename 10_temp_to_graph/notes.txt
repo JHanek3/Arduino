@@ -1,0 +1,2 @@
+In Python, I want to take the temperature of a room for x amount of time and then plot said data as a line graph
+  Serial communication between arduino and python will be used
