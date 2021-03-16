@@ -6,5 +6,5 @@ Take the temperature of a room for 2 mins every 5 seconds with the LM35 and HUMI
 ___
 
 
-## Figure 2
+### Figure 2
 <img align="left" alt="Figure 1" width="600px" height="320px" src="./Figure2.jpeg"/>
