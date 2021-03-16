@@ -1,0 +1,8 @@
+Play a melody with the Uno and Speaker
+  Tone(pin, frequency, duration)
+  Call tone with the pin number of the connected speaker, the frequency of the tone, and the duration of the tone to be player
+  Tone plays until you call no tone
+  Pass the duration of our notes as an argument 
+  Add another dimension to the array by just doing
+    TYPE NAME[SIZE][SIZE]
+  I want to add a button and flashing LEDs
