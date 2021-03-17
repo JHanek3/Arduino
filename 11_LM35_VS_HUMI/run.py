@@ -14,7 +14,7 @@ if __name__ == '__main__':
   dataPoints = 1
   dataDict = {}
   
-  while dataPoints <= 24:
+  while dataPoints <= 10:
     if ser.in_waiting > 0:
       now = datetime.now()
       current_time = now.strftime("%H:%M:%S")
