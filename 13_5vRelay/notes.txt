@@ -1,0 +1,31 @@
+Use an arduino to control higher voltage devices
+  use a relay to switch the current and then an arduino to control the relay
+
+Arduino will be programmed for when a certain event occurs
+  Any sensor can be used
+
+5v Relay Terminals and Pins
+  NC: Normally closed 120-240V terminal
+  NO: Normally opened 120-240V terminal
+  C: Common Terminal
+  Ground: Connects to the ground pin on the Arduino
+  5v VCC: Connects to the Arduino's 5V Pin
+  Signal: Carries the tr5igger signal from the Arduino that activates the relay
+  Inside the relay is a 120-240V switch that's connected to an electromagnet
+    When the relay receives a HIGH signal at the signal pin, th electromagnet becomes charged and moves the contacts to the open or closed
+
+Normally Open VS. Normally Closed
+  Do you want the 5V signal to turn the switch on or off?
+  The 120-240V supply current enters the relay at the common terminal in both configurations
+
+Normally Open
+  Relay receives a HIGH signal the 120-240V switch closes and allows current to flow from the C terminal to the NO terminal
+  A low signal deactivates the relay and stops the current
+  HIGH signal to turn ON the relay
+
+Normally Closed
+  HIGH signal opens the switch and interrupts the 120-240V current
+  LOW signal closes the switch and allows current to flow from the C terminal to the NC terminal
+  HIGH signal turn off the 120-240V current, use the normally closed terminal
+
+

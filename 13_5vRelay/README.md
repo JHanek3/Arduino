@@ -1,0 +1,1 @@
+5v Relay Switch, Arduino Uno, and Photocell. Take light reading from photocell as input. If room dark switch the 5v relay to ON turning on a lamp
