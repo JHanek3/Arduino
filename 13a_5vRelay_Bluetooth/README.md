@@ -1,0 +1,1 @@
+5v Relay Switch, Arduino Uno, and HC-06, receive bluetooth serial data from app than turn on/off lamp accordingly

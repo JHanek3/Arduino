@@ -1,0 +1,10 @@
+Relay:
+  8-Channel 5V Relay Shield Module Board Optocoupler Module Arduino ARM PIC AVR
+Bluetooth Module:
+  HC-06 Bluetooth Module
+
+Bluetooth Compatible 5v Relay to turn on and off a lamp
+  Arduino code is pretty simple
+Downloaded the android app, Arduino electronics
+  created a switch on the app that sends either 'D' or 'd' via serial to turn on/off lamp
+  then had the Uno react accordingly
