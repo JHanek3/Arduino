@@ -28,4 +28,6 @@ Normally Closed
   LOW signal closes the switch and allows current to flow from the C terminal to the NC terminal
   HIGH signal turn off the 120-240V current, use the normally closed terminal
 
+Would like to use bluetooth instead of a photocell
+
 
