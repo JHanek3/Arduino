@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
         if (marketOpen):
             if (preMarketTracker <= tracker < openTracker):
-                # pre market call
+                # pre market call, iex cloud allows pre and post market data
                 r = requests.get('https://cloud.iexapis.com/stable/stock/GME/quote?token=' + config.apiToken1)
                 jsonData = r.json()
                 dic = dict(jsonData)
@@ -69,11 +69,16 @@ if __name__ == "__main__":
                 print("{},{}\n".format(latestPrice, market))
 
             else:
-                r = requests.get('https://finnhub.io/api/v1/quote?symbol=GME&token=' + config.apiToken0)
+                # Had an error with finnhub, going to try iexcloud and see how this works
+                # r = requests.get('https://finnhub.io/api/v1/quote?symbol=GME&token=' + config.apiToken0)
+                r = requests.get('https://cloud.iexapis.com/stable/stock/GME/quote?token=' + config.apiToken1)
                 jsonData = r.json()
                 dic = dict(jsonData)
-                prevCloseStock = round(dic['pc'],2)
-                currentStock = round(dic['c'],2)
+                # prevCloseStock = round(dic['pc'],2)
+                # currentStock = round(dic['c'],2)
+                
+                prevCloseStock = dic['previousClose']
+                currentStock = dic["latestPrice"]
                 percentChange = round((currentStock - prevCloseStock) / prevCloseStock * 100,2)
                 ser.write("{},{}\n".format(currentStock, percentChange).encode('utf-8'))
                 print("{},{}\n".format(currentStock, percentChange))
