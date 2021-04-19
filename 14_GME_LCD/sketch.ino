@@ -25,15 +25,7 @@ void loop() {
     String gmeVariable = data.substring(commaIndex + 1, data.length());
     lcd.clear();
     lcd.setCursor(0,0);
-    if (gmeVariable == "pre") {
-      lcd.print("PreMarket");
-      lcd.setCursor(0,1);
-      lcd.print("GME: $" + gmeCurrent);
-    } else if (gmeVariable == "pos") {
-      lcd.print("PostMarket");
-      lcd.setCursor(0,1);
-      lcd.print("GME: $" + gmeCurrent);
-    } else if (gmeVariable == "close") {
+    if (gmeVariable == "close") {
       lcd.print("Market Closed");
       lcd.setCursor(0,1);
       lcd.print("GME: $" + gmeCurrent);
