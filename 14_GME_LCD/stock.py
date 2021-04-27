@@ -6,13 +6,15 @@ import requests
 import config
 import json
 
+from requests import ReadTimeout, ConnectTimeout, HTTPError, Timeout, ConnectionError
+
 # Is the market Open?
 marketOpen = False
 lastCall = False
 
 
 if __name__ == "__main__":
-    ser = serial.Serial("/dev/ttyUSB1", 9600, timeout=1)
+    ser = serial.Serial("/dev/ttyUSB0", 9600, timeout=1)
     ser.flush()
     print("running")
 
@@ -42,33 +44,47 @@ if __name__ == "__main__":
 
         if (openTracker <= tracker <= closeTracker and (day != 5 or day != 6)):
             marketOpen = True
+        else:
+            marketOpen = False
+            
+            
 
         if (marketOpen):
             # Had an error with finnhub, going to try iexcloud and see how this works
             # r = requests.get('https://finnhub.io/api/v1/quote?symbol=GME&token=' + config.apiToken0)
-            r = requests.get('https://cloud.iexapis.com/stable/stock/GME/quote?token=' + config.apiToken1)
-            jsonData = r.json()
-            dic = dict(jsonData)
-            # prevCloseStock = round(dic['pc'],2)
-            # currentStock = round(dic['c'],2)
+            try:
+                r = requests.get('https://cloud.iexapis.com/stable/stock/GME/quote?token=' + config.apiToken1)
+                jsonData = r.json()
+                dic = dict(jsonData)
+                # prevCloseStock = round(dic['pc'],2)
+                # currentStock = round(dic['c'],2)
+                    
+                prevCloseStock = dic['previousClose']
+                currentStock = dic["latestPrice"]
+                percentChange = round((currentStock - prevCloseStock) / prevCloseStock * 100,2)
+                ser.write("{},{}\n".format(currentStock, percentChange).encode('utf-8'))
+                print("{},{}\n".format(currentStock, percentChange))
                 
-            prevCloseStock = dic['previousClose']
-            currentStock = dic["latestPrice"]
-            percentChange = round((currentStock - prevCloseStock) / prevCloseStock * 100,2)
-            ser.write("{},{}\n".format(currentStock, percentChange).encode('utf-8'))
-            print("{},{}\n".format(currentStock, percentChange))
+            except (ConnectTimeout, HTTPError, ReadTimeout, Timeout, ConnectionError):
+                ser.write("{},{}\n".format(currentStock, percentChange).encode('utf-8'))
+                print("Error sending previous pull: {},{}\n".format(currentStock, percentChange))
         
         # I dont need to make more than one api call when market is closed
         else:
             if lastCall == False:
-                r = requests.get('https://cloud.iexapis.com/stable/stock/GME/quote?token=' + config.apiToken1)
-                jsonData = r.json()
-                dic = dict(jsonData)
-                latestPrice = dic["latestPrice"]
-                market = "close"
-                ser.write("{},{}\n".format(latestPrice, market).encode('utf-8'))
-                lastCall = True
-                prePost = False
+                try:
+                    r = requests.get('https://cloud.iexapis.com/stable/stock/GME/quote?token=' + config.apiToken1)
+                    jsonData = r.json()
+                    dic = dict(jsonData)
+                    latestPrice = dic["latestPrice"]
+                    market = "close"
+                    ser.write("{},{}\n".format(latestPrice, market).encode('utf-8'))
+                    lastCall = True
+                    prePost = False
+                except (ConnectTimeout, HTTPError, ReadTimeout, Timeout, ConnectionError):
+                    ser.write("{},{}\n".format(currentStock, percentChange).encode('utf-8'))
+                    print("Error sending previous pull: {},{}\n".format(currentStock, percentChange))
+
             else:
                 ser.write("{},{}\n".format(latestPrice, market).encode('utf-8'))
             print("{},{}\n".format(latestPrice, market))
@@ -79,3 +95,5 @@ if __name__ == "__main__":
         else:
             # print("Marketclosed")
             sleep(300)
+    
+    
