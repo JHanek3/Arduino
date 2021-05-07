@@ -44,6 +44,7 @@ if __name__ == "__main__":
 
         if (openTracker <= tracker <= closeTracker and (day != 5 or day != 6)):
             marketOpen = True
+            lastCall = False
         else:
             marketOpen = False
             
